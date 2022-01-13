@@ -1,3 +1,7 @@
+.noPosts{
+  text-align: center;
+  margin: 50px auto;
+}
 .app{
   margin: auto;
   width: 70%;

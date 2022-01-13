@@ -4,6 +4,7 @@ import '../src/App.css'
 import MyInput from './components/UI/input/MyInput';
 import MyButton from './components/UI/button/MyButton';
 import PostForm from './components/PostForm';
+import noPosts from './img/noPosts.png';
 
 function App() {
 
@@ -19,6 +20,10 @@ function App() {
     setPosts ( [...posts, newPost] )
   }
 
+  const removePost = (post) => {
+    setPosts ( posts.filter (p => p.id !== post.id) )
+  }
+
   
 
 
@@ -26,11 +31,20 @@ function App() {
     <div className="app">
 
       <PostForm create={createPost}/>
+      
+      {
+        posts.length !== 0
+        ? <PostList 
+            remove = {removePost}
+            posts={posts} 
+            PostListTitle="список постов"
+          />
+        : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>
+
+      }
 
 
-      <PostList 
-        posts={posts} 
-        PostListTitle="список постов"/>
+      
     </div>
   );
 }

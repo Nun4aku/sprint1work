@@ -5,12 +5,11 @@ const PostItem = (props) => {
 
     return (
         <div className="PostItem">
-            <div className='posts'>
-                <div className='title_id'>{props.post.id}</div>
+            <div className='posts'>    
                 <div className='title_posts'>{props.post.title}</div>
                 <div className='title_text'>{props.post.body}</div>
             </div>
-            <MyButton>Создать</MyButton>
+            <MyButton onClick={  () => props.remove(props.post) } >удалить</MyButton>
         </div>
     )
 }

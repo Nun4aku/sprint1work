@@ -22,22 +22,25 @@ function App() {
 
 
   //использовал useMemo для сортировки массива постов
+  //колбек вызвается, если изменяются посты posts или выбранный метод сортировки selectedSort
   const sortedPosts = useMemo( () => {
     console.log ('отработала сортировка')
     if (selectedSort) {
-      return [...posts].sort( (a,b) => a[selectedSort] - b[selectedSort] ? 1 : -1)
+      return [...posts].sort( (a,b) => a[selectedSort].localeCompare(b[selectedSort]))
     }
     return posts
 
   }, [selectedSort, posts])
 
+  
   //отсортированные и отфильтрованный поиском массив
-  const sortedAndSearchPosts = useMemo ( () => {
+  const sortedAndSearchPosts = useMemo( () => {
 
-    return sortedPosts.filter( post => post.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()))
+    return sortedPosts.filter( post => post.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   }, [searchQuery, sortedPosts])
 
+  
   //создание нового поста
   const createPost = (newPost) => {
     setPosts ( [...posts, newPost] )
@@ -51,7 +54,6 @@ function App() {
   //функция сортировки
   const sortPost = (sort) => {
     setSelectedSort(sort);
-
   }
   
 
@@ -66,7 +68,7 @@ function App() {
         <div>
           <MySelect
             value = {selectedSort}
-            onChange={sortedAndSearchPosts}
+            onChange={sortPost}
             defaultValue = "Сортировать по:"
             options = {[
               {value: 'title', name: 'по названию'},

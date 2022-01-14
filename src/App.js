@@ -5,6 +5,7 @@ import PostForm from './components/PostForm';
 import MySelect from './components/UI/select/MySelect';
 import noPosts from './img/noPosts.png';
 import MyInput from './components/UI/input/MyInput';
+import axios from 'axios';
 
 function App() {
 
@@ -15,6 +16,15 @@ function App() {
     { id: 3, title: 'Tзаголовок2', body: 'S_texttexttext3' },
 
   ])
+
+  async function fetchPosts() {
+
+
+    const response = await axios.get('http://localhost:3000/api/tasks?access_token=vkXFokDADQDFunWPRlCpLxPaVbECCR80B5S8S6LGmqHokgGihFMffuijmcE21A5T')
+    console.log(response)
+    setPosts(response.data)
+  }
+  
 
   const [selectedSort, setSelectedSort] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -59,6 +69,8 @@ function App() {
 
   return (
     <div className="app">
+      
+      <button onClick = {fetchPosts} >Get Posps</button>
 
       <PostForm create={createPost}/>
       
@@ -86,7 +98,7 @@ function App() {
       </div>
 
 
-
+      {/*Список всех постов*/}
       {
         //проверяем массив отсортерованных постов не пут ли он
         sortedAndSearchPosts.length !== 0
@@ -97,9 +109,6 @@ function App() {
           />
         : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>
       }
-
-
-      
     </div>
   );
 }

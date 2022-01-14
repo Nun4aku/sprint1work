@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import PostList from './components/PostList';
 import '../src/App.css'
 import PostForm from './components/PostForm';
 import MySelect from './components/UI/select/MySelect';
 import noPosts from './img/noPosts.png';
+import MyInput from './components/UI/input/MyInput';
 
 function App() {
 
@@ -16,6 +17,26 @@ function App() {
   ])
 
   const [selectedSort, setSelectedSort] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+
+
+
+  //использовал useMemo для сортировки массива постов
+  const sortedPosts = useMemo( () => {
+    console.log ('отработала сортировка')
+    if (selectedSort) {
+      return [...posts].sort( (a,b) => a[selectedSort] - b[selectedSort] ? 1 : -1)
+    }
+    return posts
+
+  }, [selectedSort, posts])
+
+  //отсортированные и отфильтрованный поиском массив
+  const sortedAndSearchPosts = useMemo ( () => {
+
+    return sortedPosts.filter( post => post.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()))
+
+  }, [searchQuery, sortedPosts])
 
   //создание нового поста
   const createPost = (newPost) => {
@@ -30,8 +51,6 @@ function App() {
   //функция сортировки
   const sortPost = (sort) => {
     setSelectedSort(sort);
-    //setPosts( [...posts].sort( (a,b) => a[sort].localeCompare(b[sort])))
-    setPosts( [...posts].sort( (a,b) => a[sort] - b[sort] ? 1 : -1))
 
   }
   
@@ -43,25 +62,35 @@ function App() {
       
       <div style={{margin: '15px'}}></div>
 
-      <div>
-        <MySelect
-          value = {selectedSort}
-          onChange={sortPost}
-          defaultValue = "Сортировать по:"
-          options = {[
-            {value: 'title', name: 'по названию'},
-            {value: 'body', name: 'по описанию'}
-          ]}
-        />
+      <div className='panelPostNav'>
+        <div>
+          <MySelect
+            value = {selectedSort}
+            onChange={sortedAndSearchPosts}
+            defaultValue = "Сортировать по:"
+            options = {[
+              {value: 'title', name: 'по названию'},
+              {value: 'body', name: 'по описанию'}
+            ]}
+          />
+        </div>
+        <div>
+          <MyInput
+            value = {searchQuery}
+            onChange = {e => setSearchQuery(e.target.value)}
+            placeholder="search"
+          />
+        </div>
       </div>
 
 
 
       {
-        posts.length !== 0
+        //проверяем массив отсортерованных постов не пут ли он
+        sortedAndSearchPosts.length !== 0
         ? <PostList 
             remove = {removePost}
-            posts = {posts} 
+            posts = {sortedAndSearchPosts} 
             PostListTitle="список постов"
           />
         : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>

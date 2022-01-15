@@ -72,43 +72,48 @@ function App() {
       
       <button onClick = {fetchPosts} >Get Posps</button>
 
-      <PostForm create={createPost}/>
       
-      <div style={{margin: '15px'}}></div>
+      <div style={{display: 'flex', justifyContent: 'space-around'}}>
+        <div className='panelPostNav'>
+          <div>
+            <PostForm create={createPost}/>
+          </div>
+        </div>
 
-      <div className='panelPostNav'>
-        <div>
-          <MySelect
-            value = {selectedSort}
-            onChange={sortPost}
-            defaultValue = "Сортировать по:"
-            options = {[
-              {value: 'title', name: 'по названию'},
-              {value: 'body', name: 'по описанию'}
-            ]}
-          />
+        <div className='left_box'>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <MySelect
+              value = {selectedSort}
+              onChange={sortPost}
+              defaultValue = "Сортировать по:"
+              options = {[
+                {value: 'title', name: 'по названию'},
+                {value: 'body', name: 'по описанию'}
+              ]}
+            />
+            <MyInput
+              value = {searchQuery}
+              onChange = {e => setSearchQuery(e.target.value)}
+              placeholder="search"
+            />
+          </div>
+
+          {/*Список всех постов*/}
+          {
+            //проверяем массив отсортерованных постов не пут ли он
+            sortedAndSearchPosts.length !== 0
+            ? <PostList 
+                remove = {removePost}
+                posts = {sortedAndSearchPosts} 
+                PostListTitle="список постов"
+              />
+            : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>
+          }
         </div>
-        <div>
-          <MyInput
-            value = {searchQuery}
-            onChange = {e => setSearchQuery(e.target.value)}
-            placeholder="search"
-          />
-        </div>
+        
       </div>
 
 
-      {/*Список всех постов*/}
-      {
-        //проверяем массив отсортерованных постов не пут ли он
-        sortedAndSearchPosts.length !== 0
-        ? <PostList 
-            remove = {removePost}
-            posts = {sortedAndSearchPosts} 
-            PostListTitle="список постов"
-          />
-        : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>
-      }
     </div>
   );
 }

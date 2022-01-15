@@ -1,14 +1,33 @@
-.panelPostNav{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.h1Main{
+  margin: 25px 10px 20px 17px;
+  font-size: 30px;
 }
-.select{
-  width: 100%;
-  padding: 8px;
-  margin: 20px;
+.left_box{
+  flex: 2;
+  margin: 20px 10px 20px 50px;
+}
+.add_form {
+  display: flex;
+  flex-direction: column;
 }
 
+.select{
+  padding: 8px;
+  margin: 5px 20px;
+}
+.panelPostNav{
+  padding: 20px 50px;
+  height: 100vh;
+  background: honeydew;
+  border-right: solid 1px #e5e5e5;
+  border-left: solid 1px #e5e5e5;
+  box-shadow: 7px 8px 5px #fbfbfb;
+}
+
+.title_posts{
+  padding: 10px 0;
+  font-size: 25px;
+}
 
 .noPosts{
   text-align: center;
@@ -16,10 +35,15 @@
 }
 .app{
   margin: auto;
-  width: 70%;
+  max-width: 1200px;
 }
 .PostItem{
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  border-bottom: solid 1px #e5e5e5;
 }
 
 .App {

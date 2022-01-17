@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import PostList from './components/PostList';
 import '../src/App.css'
 import PostForm from './components/PostForm';
@@ -6,28 +6,37 @@ import MySelect from './components/UI/select/MySelect';
 import noPosts from './img/noPosts.png';
 import MyInput from './components/UI/input/MyInput';
 import axios from 'axios';
+import PostService from './components/API/PostService';
 
 function App() {
 
+
+
   //стейт с постами
   const [posts, setPosts] = useState ([
-    { id: 1, title: 'Aзаголовок', body: 'R_texttexttext' },
-    { id: 2, title: '1заголовок2', body: 'T_texttexttext2' },
-    { id: 3, title: 'Tзаголовок2', body: 'S_texttexttext3' },
+    { id: 1, title: 'Aзаголовок', body: 'R_это текст из локального стейта' },
+    { id: 2, title: '1заголовок2', body: 'T_это текст из локального стейта' },
+    { id: 3, title: 'Tзаголовок2', body: 'S_это текст из локального стейта' },
 
   ])
 
+  //исспользовать пустой массив зависимости, что бы useEffect отработал при отрисовки 1 раз
+  useEffect( () => {
+    fetchPosts()
+    console.log('useEfect')
+  },[])
+
   async function fetchPosts() {
-
-
-    const response = await axios.get('http://localhost:3000/api/tasks?access_token=vkXFokDADQDFunWPRlCpLxPaVbECCR80B5S8S6LGmqHokgGihFMffuijmcE21A5T')
-    console.log(response)
-    setPosts(response.data)
+    setIstPostLoading(true);
+    const posts = await PostService.getAll();
+    setPosts(posts);
+    setIstPostLoading(false);
   }
   
 
   const [selectedSort, setSelectedSort] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isPostLoading, setIstPostLoading] = useState (false)
 
 
 
@@ -70,9 +79,6 @@ function App() {
   return (
     <div className="app">
       
-      <button onClick = {fetchPosts} >Get Posps</button>
-
-      
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <div className='panelPostNav'>
           <div>
@@ -99,16 +105,19 @@ function App() {
           </div>
 
           {/*Список всех постов*/}
-          {
-            //проверяем массив отсортерованных постов не пут ли он
-            sortedAndSearchPosts.length !== 0
-            ? <PostList 
-                remove = {removePost}
-                posts = {sortedAndSearchPosts} 
-                PostListTitle="список постов"
-              />
-            : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>
+          {isPostLoading //проверка на загрузку постов
+            ? <div>Loading...</div>  //если посты не згружены то Loading...
+              
+            : //проверяем массив отсортерованных постов не пут ли он
+              sortedAndSearchPosts.length !== 0
+              ? <PostList 
+                  remove = {removePost}
+                  posts = {sortedAndSearchPosts} 
+                  PostListTitle="список постов"
+                />
+              : <div className='noPosts'><img src={noPosts} alt="noPosts" /></div>
           }
+
         </div>
         
       </div>

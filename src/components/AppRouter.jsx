@@ -1,21 +1,29 @@
-import React from "react";
-import { Switch, Route, Redirect, Link} from 'react-router-dom';
-import About from '../pages/About';
-import Posts from '../pages/Posts';
+import React, { useContext } from "react";
+import { Switch, Redirect, Link, Route} from 'react-router-dom';
+import {privateRoutes, publicRoutes} from '../components/router/index';
+import { AuthContext } from '../context/index';
+
 
 const AppRouter = () => {
+
+    const { isAuth, setIsAuth } = useContext(AuthContext);
+
     return(
-        <div>
+        isAuth
+        ? 
             <Switch>
-                <Route path='/posts'>
-                    <Posts />
-                </Route>
-                <Route path='/about'>
-                    <About />
-                </Route>
+                {privateRoutes.map ( (route) => 
+                    <Route component={route.component} path={route.path} exact={route.exact} key={route.path}/>
+                )}
                 <Redirect to='/posts'/>
             </Switch>
-        </div>
+        : 
+            <Switch>
+                {publicRoutes.map ( (route) => 
+                    <Route component={route.component} path={route.path} exact={route.exact} key={route.path}/>
+                )}
+                <Redirect to='/login'/>
+            </Switch>
     )
 }
 

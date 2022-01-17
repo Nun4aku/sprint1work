@@ -1,3 +1,10 @@
+.navbar_block{
+  margin: auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .navbar{
   width: 100%;
   padding: 20px;

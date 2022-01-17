@@ -1,3 +1,19 @@
+.navbar{
+  width: 100%;
+  padding: 20px;
+  background: #9be57f;
+}
+.navbar a{
+  padding: 20px;
+  text-decoration: none;
+  color: #335c23;
+}
+
+.navbar a:hover{
+  background: #87df68;
+  color: #ffffff;
+}
+
 .h1Main{
   margin: 25px 10px 20px 17px;
   font-size: 30px;

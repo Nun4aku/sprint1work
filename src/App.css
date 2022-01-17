@@ -1,3 +1,8 @@
+.loadIndicator{
+  margin: 150px 0;
+  width: 100%;
+  text-align: center;
+}
 .navbar_block{
   margin: auto;
   max-width: 1200px;

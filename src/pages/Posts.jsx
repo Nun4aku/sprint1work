@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import PostList from '../components/PostList';
-import '../App'
+import '../App.css'
 import PostForm from '../components/PostForm';
 import MySelect from '../components/UI/select/MySelect';
 import noPosts from '../img/noPosts.png';
@@ -26,9 +26,12 @@ function Posts() {
 
   async function fetchPosts() {
     setIstPostLoading(true);
-    const posts = await PostService.getAll();
-    setPosts(posts);
-    setIstPostLoading(false);
+
+    setTimeout ( async() => {
+      const posts = await PostService.getAll();
+      setPosts(posts);
+      setIstPostLoading(false);
+    }, 1000) 
   }
   
 
@@ -104,7 +107,7 @@ function Posts() {
 
           {/*Список всех постов*/}
           {isPostLoading //проверка на загрузку постов
-            ? <div>Loading...</div>  //если посты не згружены то Loading...
+            ? <div className='loadIndicator'>Loading...</div>  //если посты не згружены то Loading...
               
             : //проверяем массив отсортерованных постов не пут ли он
               sortedAndSearchPosts.length !== 0

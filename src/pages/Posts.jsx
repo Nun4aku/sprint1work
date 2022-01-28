@@ -21,7 +21,7 @@ function Posts() {
   //исспользовать пустой массив зависимости, что бы useEffect отработал при отрисовки 1 раз
   useEffect( () => {
     fetchPosts()
-    console.log('useEfect')
+    //console.log('useEfect')
   },[])
 
   async function fetchPosts() {
@@ -44,7 +44,7 @@ function Posts() {
   //использовал useMemo для сортировки массива постов
   //колбек вызвается, если изменяются посты posts или выбранный метод сортировки selectedSort
   const sortedPosts = useMemo( () => {
-    console.log ('отработала сортировка')
+    //console.log ('отработала сортировка')
     if (selectedSort) {
       return [...posts].sort( (a,b) => a[selectedSort].localeCompare(b[selectedSort]))
     }

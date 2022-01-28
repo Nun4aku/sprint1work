@@ -11,5 +11,5 @@ export default class PostService {
             console.log(e);
         }
     }
-    
+
 }
